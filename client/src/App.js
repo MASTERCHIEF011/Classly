@@ -5,6 +5,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import Home from './components/Home/Home';
 import LandingPage from './components/LandingPage/LandingPage';
+import Auth from './components/Auth/Auth'
 
 
 // const THEME = createTheme({
@@ -25,6 +26,7 @@ const App = () => {
                     <Switch>
                         <Route path="/" exact component={LandingPage} />
                         <Route path="/home" exact component={Home} />
+                        <Route path="/auth" exact component={Auth} />
                     </Switch>
             </BrowserRouter>
     )
