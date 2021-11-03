@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Button, Typography, Paper, Grid, FormControlLabel, Checkbox, Link, Container, CssBaseline, Box } from '@material-ui/core'
+import { Button, Typography, Paper, Grid, FormControlLabel, Checkbox, Link, Container, Box } from '@material-ui/core'
 import { GoogleLogin } from 'react-google-login';
 import { signin, signup } from '../../actions/auth';
 import useStyles from './styles';

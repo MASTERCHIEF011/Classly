@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 // import useStyles from './styles';
 
 import Home from './components/Home/Home';
+import LandingPage from './components/LandingPage/LandingPage';
 
 
 // const THEME = createTheme({
@@ -22,9 +23,9 @@ const App = () => {
             <BrowserRouter>
                     {/*<Navbar />*/}
                     <Switch>
+                        <Route path="/" exact component={LandingPage} />
                         <Route path="/home" exact component={Home} />
                     </Switch>
-       
             </BrowserRouter>
     )
 }
