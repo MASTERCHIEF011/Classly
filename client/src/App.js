@@ -19,7 +19,13 @@ import Home from './components/Home/Home';
 const App = () => {
     // const classes = useStyles();
     return (
-        <Home />
+            <BrowserRouter>
+                    {/*<Navbar />*/}
+                    <Switch>
+                        <Route path="/home" exact component={Home} />
+                    </Switch>
+       
+            </BrowserRouter>
     )
 }
 
