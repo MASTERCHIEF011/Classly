@@ -15,10 +15,17 @@ export const signUp = async (req, res) => {
 
         if (password !== confirmPassword) return res.status(400).json({ message: "Passwords don't match! " });
         const hashedPassword = await bcrypt.hash(password, 12);
-        const result = await Auth.create({ email, password: hashedPassword, name: `${firstName} ${lastName}` });
-        const token = jwt.sign({ email: result.email, id: result._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-        mongoose.connection.close()
-        res.status(200).json({ result, token })
+
+        filter = { email, password: hashedPassword, name: `${firstName} ${lastName}` }
+        AuthService.create(filter).then((result) => {
+            const token = jwt.sign({ email: result.email, id: result._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+            mongoose.connection.close()
+            res.status(200).json({ result, token })
+        })
+            .catch((err) => {
+                console.log(err)
+                res.status(500).json({ message: "Something went wrong!" })
+            })
     })
         .catch((err) => {
             console.log(err)
