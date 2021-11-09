@@ -4,7 +4,7 @@ import DashboardLayout from './layouts/dashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 import Landing from './layouts/Landing';
 //
-import Index from './views/Landing';
+import LandingPage from './views/LandingPage';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import DashboardApp from './pages/DashboardApp';
@@ -30,12 +30,12 @@ export default function Router() {
     },
     {
       path: '/',
-      element: <Landing />,
+      element: <LogoOnlyLayout />,
       children: [
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },
-        { path: '/', element: <Index /> },
+        { path: '/', element: <LandingPage /> },
         { path: '*', element: <Navigate to="/404" /> }
       ]
     },

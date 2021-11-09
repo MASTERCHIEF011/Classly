@@ -6,7 +6,7 @@
 // import Home from './components/Home/Home';
 // import LandingPage from './components/LandingPage/LandingPage';
 // import "@fortawesome/fontawesome-free/css/all.min.css";
-// import "./assets/styles/tailwind.css";
+import "./assets/styles/tailwind.css";
 
 // // layouts
 
