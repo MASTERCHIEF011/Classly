@@ -5,6 +5,7 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 import Home from './components/Home/Home';
 import LandingPage from './components/LandingPage/LandingPage';
+import Auth from './components/Auth/Auth'
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./assets/styles/tailwind.css";
@@ -33,22 +34,14 @@ import Index from "./views/Index.js";
 const App = () => {
     // const classes = useStyles();
     return (
-        <BrowserRouter>
-            {/*<Navbar />*/}
-            <Switch>
-                {/* <Route path="/" exact component={LandingPage} /> */}
-                <Route path="/home" exact component={Home} />
-                {/* add routes with layouts */}
-                <Route path="/admin" component={Admin} />
-                <Route path="/auth" component={Auth} />
-                {/* add routes without layouts */}
-                <Route path="/landing" exact component={Landing} />
-                <Route path="/profile" exact component={Profile} />
-                <Route path="/" exact component={Index} />
-                {/* add redirect for first page */}
-                <Redirect from="*" to="/" />
-            </Switch>
-        </BrowserRouter>
+            <BrowserRouter>
+                    {/*<Navbar />*/}
+                    <Switch>
+                        <Route path="/" exact component={LandingPage} />
+                        <Route path="/home" exact component={Home} />
+                        <Route path="/auth" exact component={Auth} />
+                    </Switch>
+            </BrowserRouter>
     )
 }
 
