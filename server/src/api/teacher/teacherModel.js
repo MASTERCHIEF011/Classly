@@ -12,7 +12,31 @@ const teacherSchema = new mongoose.Schema({
     },
     slotName: [String],
     slotTiming: [Date],
-    slotStudents: [[mongoose.Schema.Types.ObjectId]]
+    slotStudents: [[mongoose.Schema.Types.ObjectId]],
+    meetingName: [String],
+    conversationIdData: [{
+        conversationId: {
+            type: String,
+            default: ''
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now()
+        },
+        meetingName: {
+            type: String,
+            default: ""
+        },
+        analysisData:
+        {
+            type: Object,
+            default: null
+        },
+        url: {
+            type: String,
+            default: ''
+        }
+    }],
 })
 
 const Teacher = mongoose.model("Teacher", teacherSchema)
