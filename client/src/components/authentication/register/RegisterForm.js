@@ -1,18 +1,21 @@
 import * as Yup from 'yup';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { signup } from '../../../actions/auth'
 import { Icon } from '@iconify/react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
 import { useNavigate } from 'react-router-dom';
 // material
-import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
+import { Stack, TextField, IconButton, InputAdornment, FormControl, FormLabel, RadioGroup, Radio, FormControlLabel } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
   const RegisterSchema = Yup.object().shape({
@@ -30,11 +33,13 @@ export default function RegisterForm() {
       firstName: '',
       lastName: '',
       email: '',
-      password: ''
+      password: '',
+      role: ''
     },
     validationSchema: RegisterSchema,
     onSubmit: () => {
-      navigate('/dashboard', { replace: true });
+      console.log(formik.values)
+      dispatch(signup(formik.values, navigate))
     }
   });
 
@@ -90,6 +95,19 @@ export default function RegisterForm() {
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}
           />
+          
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Who Are You?</FormLabel>
+            <RadioGroup
+              aria-label="role"
+              defaultValue="teacher"
+              name="radio-buttons-group"
+              {...getFieldProps('role')}
+            >
+              <FormControlLabel value="teacher" control={<Radio />} label="I am a Teacher"  />
+              <FormControlLabel value="student" control={<Radio />} label="I am a Student"  />
+            </RadioGroup>
+          </FormControl>
 
           <LoadingButton
             fullWidth

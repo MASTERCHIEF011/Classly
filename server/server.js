@@ -3,13 +3,14 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
+import authRoutes from './src/auth/authRoutes.js';
+
 dotenv.config();
 const app = express();
 
 
 app.use(express.urlencoded({ limit: "30mb", extended: "true" }));
 app.use(express.json({ limit: "30mb", extended: "true" }));
-
 app.use(cors());
 
 const PORT = process.env.PORT || 5000
@@ -22,4 +23,6 @@ app.use(function (req, res, next) {
     res.locals.currentUser = req.user;
     next();
 });
+
+app.use("/user", authRoutes);
 
