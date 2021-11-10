@@ -4,7 +4,7 @@ export const signUp = (filter) => {
     return new Promise(async (resolve, reject) => {
         try {
             const existingUser = await User.findOne(filter);
-            resolve({ data: existingUser });
+            resolve(existingUser);
         } catch (error) {
             reject(error);
         }
@@ -15,7 +15,7 @@ export const signIn = (filter) => {
     return new Promise(async (resolve, reject) => {
         try {
             const existingUser = await User.findOne(filter);
-            resolve({ data: existingUser });
+            resolve(existingUser);
         } catch (error) {
             reject(error);
         }
@@ -26,7 +26,7 @@ export const create = (filter) => {
     return new Promise(async (resolve, reject) => {
         try {
             const newUser = await User.create(filter);
-            resolve({ data: newUser });
+            resolve(newUser);
         } catch (error) {
             reject(error);
         }

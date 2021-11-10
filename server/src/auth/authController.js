@@ -2,13 +2,13 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 
-import * as AuthService from "./authService"
+import * as AuthService from "./authService.js"
 
 
 export const signUp = async (req, res) => {
     const { email, password, confirmPassword, firstName, lastName } = req.body;
     let filter = { email }
-    AuthService.signUp(filter).then((existingUser) => {
+    AuthService.signUp(filter).then(async (existingUser) => {
         if (existingUser) {
             res.status(400).json({ message: "User already exists!" });
         }
@@ -24,7 +24,7 @@ export const signUp = async (req, res) => {
         })
             .catch((err) => {
                 console.log(err)
-                res.status(500).json({ message: "Something went wrong!" })
+                return res.status(500).json({ message: "Something went wrong!" })
             })
     })
         .catch((err) => {
@@ -37,19 +37,21 @@ export const signUp = async (req, res) => {
 
 export const signIn = async (req, res) => {
     const { email, password } = req.body;
+    console.log(email, password);
     let filter = { email }
-    AuthService.signUp(filter).then((existingUser) => {
+    AuthService.signIn(filter).then(async(existingUser) => {
         if (!existingUser) {
-            res.status(404).json({ message: "User doesn't exist!" });
+            console.log('inside')
+            return res.status(200).json({ message: "User doesn't exist!" });
         }
 
         const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
         if (!isPasswordCorrect) return res.status(400).json({ message: "Invalid Credentials." });
         const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-        res.status(200).json({ result: existingUser, token });
+        return res.status(200).json({ result: existingUser, token });
     })
-        .catch((err) => {
-            console.log(err)
-            res.status(500).json({ message: "Something went wrong!" })
-        })
+    .catch((err) => {
+        console.log(err)
+        return res.status(500).json({ message: "Something went wrong!" })
+    })
 }
