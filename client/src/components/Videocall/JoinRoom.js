@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const JoinRoom = () => {
+    const navigate = useNavigate();
     const [roomId, setRoomId] = useState(null);
     const onSubmit = () => {
-        window.location.assign(`/video/${roomId}`);
+        navigate(`/video/${roomId}`)
     };
 
     return (
