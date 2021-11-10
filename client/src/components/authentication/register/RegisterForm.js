@@ -18,6 +18,7 @@ export default function RegisterForm() {
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
+
   const RegisterSchema = Yup.object().shape({
     firstName: Yup.string()
       .min(2, 'Too Short!')
@@ -25,7 +26,10 @@ export default function RegisterForm() {
       .required('First name required'),
     lastName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Last name required'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    password: Yup.string().required('Password is required')
+    password: Yup.string().required('Password is required'),
+    phone: Yup.string()
+      .required("This field is Required")
+
   });
 
   const formik = useFormik({
@@ -34,7 +38,8 @@ export default function RegisterForm() {
       lastName: '',
       email: '',
       password: '',
-      role: ''
+      role: '',
+      phone: ''
     },
     validationSchema: RegisterSchema,
     onSubmit: () => {
@@ -69,6 +74,15 @@ export default function RegisterForm() {
 
           <TextField
             fullWidth
+            type='number'
+            label="Phone"
+            {...getFieldProps('phone')}
+            error={Boolean(touched.phone && errors.phone)}
+            helperText={touched.phone && errors.phone}
+          />
+
+          <TextField
+            fullWidth
             autoComplete="username"
             type="email"
             label="Email address"
@@ -95,7 +109,7 @@ export default function RegisterForm() {
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}
           />
-          
+
           <FormControl component="fieldset">
             <FormLabel component="legend">Who Are You?</FormLabel>
             <RadioGroup
@@ -104,8 +118,8 @@ export default function RegisterForm() {
               name="radio-buttons-group"
               {...getFieldProps('role')}
             >
-              <FormControlLabel value="teacher" control={<Radio />} label="I am a Teacher"  />
-              <FormControlLabel value="student" control={<Radio />} label="I am a Student"  />
+              <FormControlLabel value="teacher" control={<Radio />} label="I am a Teacher" />
+              <FormControlLabel value="student" control={<Radio />} label="I am a Student" />
             </RadioGroup>
           </FormControl>
 

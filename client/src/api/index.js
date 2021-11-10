@@ -28,3 +28,5 @@ export const signUp = (formData) => API.post('/user/signup', formData);
 // export const getConversationList = () => API.get('/analysis/pitchAnalysis/getConversationList');
 // export const fetchAnalysisResult = (conversationId) => API.get(`/analysis/pitchAnalysis/fetchAnalysisResult/${conversationId}`);
 
+
+export const joincall = (roomId) => API.get(`/video-call/${roomId}`)

@@ -1,18 +1,14 @@
 import React, { useState } from "react";
-import { useDispatch } from 'react-redux';
-import { joincall } from "../../actions/videoCall";
 
 const JoinRoom = () => {
-    const [formData, setFormData] = useState(null);
-    const dispatch = useDispatch()
+    const [roomId, setRoomId] = useState(null);
     const onSubmit = () => {
-        // window.location.assign(`/video/${room}`);
-        dispatch(joincall(formData))
+        window.location.assign(`/video/${roomId}`);
     };
 
     return (
         <div>
-            <input type="text" onChange={(e) => setFormData(e.target.value)} />
+            <input type="text" onChange={(e) => setRoomId(e.target.value)} />
             <button onClick={onSubmit}>Submit</button>
         </div>
     );

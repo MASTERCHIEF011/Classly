@@ -5,10 +5,12 @@ export const signin = (formData, navigate) => async (dispatch) => {
     try {
         const { data } = await api.signIn(formData);
         dispatch({ type: AUTH, data });
-        if(data.message.length > 0)
+        if (data.message && data.message.length > 0)
             navigate('/login');
-        else
+        else {
+            console.log(data, "kkkkk")
             navigate('/dashboard')
+        }
     } catch (error) {
         console.log(error);
     }

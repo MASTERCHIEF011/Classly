@@ -9,7 +9,7 @@ const Videocall = ({ match }) => {
 
   useEffect(() => {
     const domain = "https://classly.daily.co/";
-    dispatch(joincall())
+    dispatch(joincall(id))
     axios
       .get(`/video-call/${id}`)
       .then((res) => {

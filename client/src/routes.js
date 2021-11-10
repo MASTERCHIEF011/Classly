@@ -13,6 +13,7 @@ import Blog from './pages/Blog';
 import User from './pages/User';
 import NotFound from './pages/Page404';
 
+
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -36,7 +37,8 @@ export default function Router() {
         { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },
         { path: '/', element: <LandingPage /> },
-        { path: '*', element: <Navigate to="/404" /> }
+        { path: '*', element: <Navigate to="/404" /> },
+        // { path: '/videoCall', element: <JoinRoom /> }
       ]
     },
     { path: '*', element: <Navigate to="/404" replace /> }
