@@ -12,6 +12,8 @@ import Products from './pages/Products';
 import Blog from './pages/Blog';
 import User from './pages/User';
 import NotFound from './pages/Page404';
+import JoinRoom from './components/VideoCall/JoinRoom';
+import VideoCall from './components/VideoCall/VideoCall';
 
 
 // ----------------------------------------------------------------------
@@ -38,7 +40,8 @@ export default function Router() {
         { path: '404', element: <NotFound /> },
         { path: '/', element: <LandingPage /> },
         { path: '*', element: <Navigate to="/404" /> },
-        // { path: '/videoCall', element: <JoinRoom /> }
+        { path: 'joinroom', element: <JoinRoom /> },
+        { path: 'video/:id', element: <VideoCall /> }
       ]
     },
     { path: '*', element: <Navigate to="/404" replace /> }
