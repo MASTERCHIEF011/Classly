@@ -35,7 +35,7 @@ export const getRoom = (req, res) => {
                 }),
             };
             VideoCallService.createRoom(options).then((newRoom) => {
-                res.status(200).send(newRoom);
+                res.status(200).send(newRoom, { status: 200 });
             })
                 .catch((err) => {
                     console.log(err)
@@ -43,7 +43,7 @@ export const getRoom = (req, res) => {
                 })
 
         } else {
-            res.status(200).send(room);
+            res.status(200).send(room, { status: 200 });
         }
     })
         .catch((err) => {

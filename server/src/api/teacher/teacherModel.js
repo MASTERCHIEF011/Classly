@@ -15,6 +15,10 @@ const teacherSchema = new mongoose.Schema({
     slotStudents: [[mongoose.Schema.Types.ObjectId]],
     meetingName: [String],
     conversationIdData: [{
+        slotName: {
+            type: String,
+            default: ""
+        },
         conversationId: {
             type: String,
             default: ''

@@ -5,7 +5,8 @@ const JoinRoom = () => {
     const navigate = useNavigate();
     const [roomId, setRoomId] = useState(null);
     const onSubmit = () => {
-        navigate(`/video/${roomId}`)
+        // navigate(`/video/${roomId}`)
+        window.location.assign(`/video/${roomId}`);
     };
 
     return (

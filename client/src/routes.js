@@ -18,7 +18,7 @@ import VideoCall from './components/VideoCall/VideoCall';
 
 // ----------------------------------------------------------------------
 
-export default function Router() {
+const Router = () => {
   return useRoutes([
     {
       path: '/dashboard',
@@ -33,7 +33,7 @@ export default function Router() {
     },
     {
       path: '/',
-      element: <LogoOnlyLayout />,
+      // element: <LogoOnlyLayout />,
       children: [
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
@@ -47,3 +47,5 @@ export default function Router() {
     { path: '*', element: <Navigate to="/404" replace /> }
   ]);
 }
+
+export default Router

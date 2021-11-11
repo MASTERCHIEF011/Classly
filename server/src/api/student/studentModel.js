@@ -7,13 +7,16 @@ const studentSchema = new mongoose.Schema({
         default: null
     },
     teachersAlloted: [{
-        type: mongoose.Schema.Types.ObjectId,
-        default: null
+        teacher: {
+            type: mongoose.Schema.Types.ObjectId,
+            default: null
+        },
+        slotName: {
+            type: String,
+            default: null
+        }
     }],
-    slot: {
-        type: String,
-        default: null
-    }
+
 })
 
 const Student = mongoose.model("Student", studentSchema)
