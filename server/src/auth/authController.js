@@ -20,7 +20,6 @@ export const signUp = async (req, res) => {
         filter = { email, password: hashedPassword, name: `${firstName} ${lastName}`, role, phone }
         AuthService.create(filter).then((result) => {
             const token = jwt.sign({ email: result.email, id: result._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-            mongoose.connection.close()
             res.status(200).json({ result, token })
         })
             .catch((err) => {
