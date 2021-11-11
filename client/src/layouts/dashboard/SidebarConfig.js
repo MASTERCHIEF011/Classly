@@ -29,7 +29,7 @@ export const teacherSidebarConfig = [
   // },
   {
     title: 'classes',
-    path: '/dashboard/products',
+    path: '/dashboard/classes',
     icon: getIcon(shoppingBagFill)
   },
   {
@@ -66,7 +66,7 @@ export const studentSidebarConfig = [
   },
   {
     title: 'Your Teachers',
-    path: '/dashboard/products',
+    path: '/dashboard/classes',
     icon: getIcon(shoppingBagFill)
   },
   {

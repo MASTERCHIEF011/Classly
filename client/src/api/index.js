@@ -13,6 +13,12 @@ API.interceptors.request.use((req) => {
 export const signIn = (formData) => API.post('/user/signin', formData);
 export const signUp = (formData) => API.post('/user/signup', formData);
 
+
+export const createClass = (formData) => {
+    console.log(formData);
+    API.post('/teacher/createclass', formData);
+}
+
 // //---------------Interview Analysis axios APIs------------//
 // export const joinZoomCall = (formData) => API.post('/analysis/interviewAnalysis', formData)
 // export const getAnalysis = (formData) => API.post('/analysis/interviewAnalysisResult', formData)
