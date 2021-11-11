@@ -18,12 +18,12 @@ export const signUp = (formData) => API.post('/user/signup', formData);
 // export const getAnalysis = (formData) => API.post('/analysis/interviewAnalysisResult', formData)
 // export const stopAnalysis = (connectionId) => API.get(`/analysis/stopInterviewAnalysis/${connectionId}`)
 
-// //---------------Pitch Analysis axios APIs------------//
-// export const sendVideoData = (formData) => API.post('/analysis/pitchAnalysis/sendVideoData', formData, {
-//     headers: {
-//         "Content-Type": "multipart/form-data"
-//     }
-// })
+// //---------------Video Analysis axios APIs------------//
+export const sendVideoData = (formData) => API.post('/analysis/videoAnalysis/sendVideoData', formData, {
+    headers: {
+        "Content-Type": "multipart/form-data"
+    }
+})
 // export const getComparisonData = (conversationId1, conversationId2) => API.get(`/analysis/pitchAnalysis/getComparisonData/${conversationId1}/${conversationId2}`)
 // export const getConversationList = () => API.get('/analysis/pitchAnalysis/getConversationList');
 // export const fetchAnalysisResult = (conversationId) => API.get(`/analysis/pitchAnalysis/fetchAnalysisResult/${conversationId}`);
