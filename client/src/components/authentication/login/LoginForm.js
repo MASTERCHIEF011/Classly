@@ -1,5 +1,7 @@
 import * as Yup from 'yup';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { signin } from '../../../actions/auth'
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { Icon } from '@iconify/react';
@@ -21,6 +23,9 @@ import { LoadingButton } from '@mui/lab';
 
 export default function LoginForm() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const authData = useSelector(state => state.authData)
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
@@ -36,7 +41,9 @@ export default function LoginForm() {
     },
     validationSchema: LoginSchema,
     onSubmit: () => {
-      navigate('/dashboard', { replace: true });
+      console.log(formik.values)
+      dispatch(signin(formik.values, navigate))
+      formik.resetForm();
     }
   });
 
@@ -45,6 +52,7 @@ export default function LoginForm() {
   const handleShowPassword = () => {
     setShowPassword((show) => !show);
   };
+
 
   return (
     <FormikProvider value={formik}>
