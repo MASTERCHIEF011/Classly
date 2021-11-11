@@ -2,9 +2,10 @@ import { Icon } from '@iconify/react';
 import androidFilled from '@iconify/icons-ant-design/android-filled';
 // material
 import { alpha, styled } from '@mui/material/styles';
-import { Card, Typography } from '@mui/material';
+import { Card, Typography, Grid } from '@mui/material';
 // utils
 import { fShortenNumber } from '../../../utils/formatNumber';
+import { AppItemOrders, AppNewUsers } from '.';
 
 // ----------------------------------------------------------------------
 
@@ -15,7 +16,14 @@ const RootStyle = styled(Card)(({ theme }) => ({
   color: theme.palette.primary.darker,
   backgroundColor: theme.palette.primary.lighter
 }));
-
+const RootStyle2 = styled(Card)(({ theme }) => ({
+  boxShadow: 'none',
+  textAlign: 'center',
+  padding: theme.spacing(5, 0),
+  margin: theme.spacing(2),
+  color: theme.palette.error.dark,
+  backgroundColor: theme.palette.error.light
+}));
 const IconWrapperStyle = styled('div')(({ theme }) => ({
   margin: 'auto',
   display: 'flex',
@@ -43,9 +51,21 @@ export default function AppWeeklySales() {
         <Icon icon={androidFilled} width={24} height={24} />
       </IconWrapperStyle>
       <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
-      <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
+      <Typography variant="subtitle2" sx={{ opacity: 0.72 }} style={{ marginBottom: '8rem' }}>
         Weekly Sales
       </Typography>
+      <Grid container spacing={3}>
+        <Grid item xs={12} sm={6}>
+          <RootStyle2>
+            <div> </div>
+          </RootStyle2>
+        </ Grid>
+        <Grid item xs={12} sm={6}>
+          <RootStyle2>
+            <div> </div>
+          </RootStyle2>
+        </Grid>
+      </Grid>
     </RootStyle>
   );
 }
