@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
 import { Box, Link, Button, Drawer, Typography, Avatar, Stack } from '@mui/material';
@@ -10,13 +10,12 @@ import Scrollbar from '../../components/Scrollbar';
 import NavSection from '../../components/NavSection';
 import { MHidden } from '../../components/@material-extend';
 //
-import sidebarConfig from './SidebarConfig';
+import { teacherSidebarConfig, studentSidebarConfig } from './SidebarConfig';
 import account from '../../_mocks_/account';
 
 // ----------------------------------------------------------------------
 
 const DRAWER_WIDTH = 200;
-
 const RootStyle = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('lg')]: {
     flexShrink: 0,
@@ -41,6 +40,9 @@ DashboardSidebar.propTypes = {
 
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
+  const navigate  = useNavigate();
+  let sidebarConfig;
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
 
   useEffect(() => {
     if (isOpenSidebar) {
@@ -48,7 +50,11 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
-
+    if(user.result.role === "teacher"){
+      sidebarConfig = teacherSidebarConfig
+    } else if(user.result.role === "student"){
+      sidebarConfig = studentSidebarConfig;
+    }
   const renderContent = (
     <Scrollbar
       sx={{
@@ -77,7 +83,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
           </AccountStyle>
         </Link>
       </Box> */}
-
+      {console.log(sidebarConfig)}
       <NavSection navConfig={sidebarConfig} />
 
       <Box sx={{ flexGrow: 1 }} />
