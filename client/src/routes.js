@@ -14,6 +14,7 @@ import User from './pages/User';
 import NotFound from './pages/Page404';
 import JoinRoom from './components/VideoCall/JoinRoom';
 import VideoCall from './components/VideoCall/VideoCall';
+import VideoAnalysis from './components/Analysis/VideoAnalysis';
 
 
 // ----------------------------------------------------------------------
@@ -41,7 +42,8 @@ const Router = () => {
         { path: '/', element: <LandingPage /> },
         { path: '*', element: <Navigate to="/404" /> },
         { path: 'joinroom', element: <JoinRoom /> },
-        { path: 'video/:id', element: <VideoCall /> }
+        { path: 'video/:id', element: <VideoCall /> },
+        { path: 'videoAnalysis', element: <VideoAnalysis /> }
       ]
     },
     { path: '*', element: <Navigate to="/404" replace /> }

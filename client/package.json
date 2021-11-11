@@ -12,6 +12,7 @@
     "@iconify/react": "^3.0.1",
     "@mui/lab": "^5.0.0-alpha.47",
     "@mui/material": "^5.0.0",
+    "@mui/styles": "^5.1.0",
     "@mui/utils": "^5.0.0",
     "@popperjs/core": "2.9.1",
     "@tailwindcss/forms": "0.2.1",
