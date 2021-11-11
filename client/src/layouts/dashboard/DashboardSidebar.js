@@ -21,7 +21,9 @@ const RootStyle = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('lg')]: {
     flexShrink: 0,
     width: DRAWER_WIDTH
-  }
+  },
+  color: theme.palette.secondary.dark,
+  backgroundColor: theme.palette.secondary.light
 }));
 
 const AccountStyle = styled('div')(({ theme }) => ({
