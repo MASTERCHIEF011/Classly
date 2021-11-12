@@ -302,7 +302,7 @@ export const createClass = async (req, res) => {
             console.log(teacher, "muskurane")
             TeacherService.update({ teacherId: req.userId }, { $push: { className: { [req.body.slotName]: req.body.className }, subject: req.body.subject, slot: { [req.body.slotName]: { $each: [] } } } }).then(async (teacher) => {
                 console.log("Succefully updated Class!", teacher)
-                res.status(200).json({ message: "Succefully updated Class!" })
+                res.status(200).json({ message: "Succefully updated Class!", data: teacher })
             })
                 .catch((err) => {
                     console.log(err)
@@ -312,7 +312,7 @@ export const createClass = async (req, res) => {
         else {
             TeacherService.insert({ teacherId: req.userId, className: { [req.body.slotName]: req.body.className }, subject: req.body.subject, slot: { [req.body.slotName]: [] } }).then(async (teacher) => {
                 console.log("Succefully created Class!", teacher)
-                res.status(200).json({ message: "Succefully created Class!" })
+                res.status(200).json({ message: "Succefully created Class!", data: teacher })
             })
                 .catch((err) => {
                     console.log(err)
