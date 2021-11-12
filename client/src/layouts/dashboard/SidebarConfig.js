@@ -19,7 +19,7 @@ export const teacherSidebarConfig = [
   },
   {
     title: 'profile',
-    path: '/dashboard/profile',
+    path: '/dashboard/user',
     icon: getIcon(peopleFill)
   },
   // {

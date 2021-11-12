@@ -27,7 +27,7 @@ const Router = () => {
       children: [
         { element: <Navigate to="/dashboard/app" replace /> },
         { path: 'app', element: <DashboardApp /> },
-        { path: 'profile', element: <User /> },
+        { path: 'user', element: <User /> },
         { path: 'classes', element: <Products /> },
         { path: 'blog', element: <Blog /> },
       ]
