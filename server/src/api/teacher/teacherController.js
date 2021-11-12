@@ -285,7 +285,7 @@ export const addStudent = async (req, res) => {
 
     TeacherService.update({ teacherId: req.userId }, { $push: { slot: { [req.body.preferredSlot]: { $each: req.body.studentList } } } }).then(async () => {
         console.log("Succefully added Students!")
-        StudentService.update({ studentId: { $in: req.body.studentList } }, { $push: { teachersAlloted: req.userId } })
+        StudentService.update({ studentId: { $in: req.body.studentList } }, { $push: { teachersAlloted: { teacher: req.userId, slotName: req.query.slotName } } })
         res.status(200).json({ message: "Succefully added Students!" })
     })
         .catch((err) => {
@@ -300,8 +300,8 @@ export const createClass = async (req, res) => {
     TeacherService.find(filter).then((teacher) => {
         if (teacher.length > 0) {
             console.log(teacher, "muskurane")
-            TeacherService.update({ teacherId: req.userId }, { $push: { className: { [req.body.slotName]: req.body.className }, subject: req.body.subject, slot: { [req.body.slotName]: { $each: [] } } } }).then(async () => {
-                console.log("Succefully updated Class!")
+            TeacherService.update({ teacherId: req.userId }, { $push: { className: { [req.body.slotName]: req.body.className }, subject: req.body.subject, slot: { [req.body.slotName]: { $each: [] } } } }).then(async (teacher) => {
+                console.log("Succefully updated Class!", teacher)
                 res.status(200).json({ message: "Succefully updated Class!" })
             })
                 .catch((err) => {
@@ -310,8 +310,8 @@ export const createClass = async (req, res) => {
                 })
         }
         else {
-            TeacherService.insert({ teacherId: req.userId, className: { [req.body.slotName]: req.body.className }, subject: req.body.subject, slot: { [req.body.slotName]: [] } }).then(async () => {
-                console.log("Succefully created Class!")
+            TeacherService.insert({ teacherId: req.userId, className: { [req.body.slotName]: req.body.className }, subject: req.body.subject, slot: { [req.body.slotName]: [] } }).then(async (teacher) => {
+                console.log("Succefully created Class!", teacher)
                 res.status(200).json({ message: "Succefully created Class!" })
             })
                 .catch((err) => {
