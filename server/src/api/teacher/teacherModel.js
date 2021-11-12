@@ -27,15 +27,20 @@ const teacherSchema = new mongoose.Schema({
     slot: {
         morning: [{
             type: mongoose.Schema.Types.ObjectId,
-            default: null
+            default: null,
+            ref: "User"
         }],
         afternoon: [{
             type: mongoose.Schema.Types.ObjectId,
-            default: null
+            default: null,
+            ref: "User"
+
         }],
         evening: [{
             type: mongoose.Schema.Types.ObjectId,
-            default: null
+            default: null,
+            ref: "User"
+
         }]
     },
     meetingName: [String],

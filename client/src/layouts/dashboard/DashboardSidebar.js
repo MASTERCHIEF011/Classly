@@ -19,10 +19,13 @@ const DRAWER_WIDTH = 200;
 const RootStyle = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('lg')]: {
     flexShrink: 0,
-    width: DRAWER_WIDTH
+    width: DRAWER_WIDTH,
+    borderStyle: 'none',
+
   },
-  color: theme.palette.secondary.dark,
-  backgroundColor: theme.palette.secondary.light
+  color: '#000',
+  backgroundColor: '#4e41bf',
+  borderStyle: 'none'
 }));
 
 const AccountStyle = styled('div')(({ theme }) => ({
@@ -42,7 +45,7 @@ DashboardSidebar.propTypes = {
 
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
   let sidebarConfig;
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
 
@@ -52,20 +55,23 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
-    if(user.result.role === "teacher"){
-      sidebarConfig = teacherSidebarConfig
-    } else if(user.result.role === "student"){
-      sidebarConfig = studentSidebarConfig;
-    }
+  if (user.result.role === "teacher") {
+    sidebarConfig = teacherSidebarConfig
+  } else if (user.result.role === "student") {
+    sidebarConfig = studentSidebarConfig;
+  }
   const renderContent = (
     <Scrollbar
       sx={{
         height: '100%',
+        borderStyle: 'none',
         '& .simplebar-content': { height: '100%', display: 'flex', flexDirection: 'column' }
       }}
     >
-      <Box sx={{ px: 2.5, py: 3 }}>
-        <Box component={RouterLink} to="/" sx={{ display: 'inline-flex' }}>
+      <Box sx={{
+        px: 2.5, py: 3, border: 'none',
+      }}>
+        <Box component={RouterLink} to="/" sx={{ display: 'inline-flex', border: 'none' }}>
           <Logo />
         </Box>
       </Box>
@@ -88,7 +94,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       {console.log(sidebarConfig)}
       <NavSection navConfig={sidebarConfig} />
 
-      <Box sx={{ flexGrow: 1 }} />
+      <Box sx={{ flexGrow: 1, border: 'none' }} />
 
       {/* <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
         <Stack
@@ -137,7 +143,11 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
           open={isOpenSidebar}
           onClose={onCloseSidebar}
           PaperProps={{
-            sx: { width: DRAWER_WIDTH }
+            sx: {
+              width: DRAWER_WIDTH, bgcolor: '#4e41bf', color: '#000', borderStyle: 'none',
+
+
+            }
           }}
         >
           {renderContent}
@@ -151,7 +161,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
           PaperProps={{
             sx: {
               width: DRAWER_WIDTH,
-              bgcolor: 'background.default'
+              bgcolor: '#4e41bf'
             }
           }}
         >

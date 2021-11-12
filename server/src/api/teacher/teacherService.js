@@ -6,7 +6,7 @@ import Teacher from "./teacherModel.js";
 export const find = (filter) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const data = await Teacher.find(filter)
+            const data = await Teacher.find(filter).populate('User')
             resolve(data);
         } catch (error) {
             reject(error);

@@ -18,7 +18,7 @@ const ListItemStyle = styled((props) => <ListItemButton disableGutters {...props
     textTransform: 'capitalize',
     paddingLeft: theme.spacing(5),
     paddingRight: theme.spacing(2.5),
-    color: theme.palette.text.secondary,
+    color: '#FFFFFF',
     '&:before': {
       top: 0,
       right: 0,
@@ -29,7 +29,7 @@ const ListItemStyle = styled((props) => <ListItemButton disableGutters {...props
       position: 'absolute',
       borderTopLeftRadius: 4,
       borderBottomLeftRadius: 4,
-      backgroundColor: theme.palette.primary.main
+      backgroundColor: '#4e41bf'
     }
   })
 );
@@ -60,8 +60,8 @@ function NavItem({ item, active }) {
   };
 
   const activeRootStyle = {
-    color: 'primary.main',
-    fontWeight: 'fontWeightMedium',
+    color: '#FFFFFF',
+    fontWeight: '900',
     bgcolor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
     '&:before': { display: 'block' }
   };

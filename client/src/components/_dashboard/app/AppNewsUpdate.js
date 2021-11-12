@@ -59,7 +59,7 @@ function NewsItem({ news }) {
 
 export default function AppNewsUpdate() {
   return (
-    <Card>
+    <Card style={{ backgroundColor: '#f2edf2' }}>
       <CardHeader title="News Update" />
 
       <Scrollbar>

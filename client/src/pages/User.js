@@ -87,6 +87,7 @@ export default function User() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
+      console.log("meww")
       const newSelecteds = USERLIST.map((n) => n.name);
       setSelected(newSelecteds);
       return;
@@ -95,6 +96,7 @@ export default function User() {
   };
 
   const handleClick = (event, name) => {
+    console.log('moo', event);
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
     if (selectedIndex === -1) {
@@ -165,7 +167,7 @@ export default function User() {
                   rowCount={USERLIST.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick}
+                  onSelectAllClick={(event) => handleSelectAllClick(event)}
                 />
                 <TableBody>
                   {filteredUsers
@@ -186,7 +188,7 @@ export default function User() {
                           <TableCell padding="checkbox">
                             <Checkbox
                               checked={isItemSelected}
-                              onChange={(event) => handleClick(event, name)}
+                              onClick={(event) => handleClick(event, name)}
                             />
                           </TableCell>
                           <TableCell component="th" scope="row" padding="none">
