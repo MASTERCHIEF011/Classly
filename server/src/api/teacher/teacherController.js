@@ -1,11 +1,9 @@
 import request from 'request';
 import multer from 'multer'
 import fs from 'fs'
-import AnalysisData from './teacherModel.js';
-
-
 
 import * as TeacherService from './teacherService.js'
+import * as StudentService from '../student/studentService.js'
 
 const startAnalysis = async (authToken, path, meetingName, callback) => {
 
@@ -176,9 +174,18 @@ export const sendVideoData = async (req, res) => {
             console.log("ss")
             let path = `public/${req.body.fileName}`
             let url = ''
-
-            generateAuthToken((authToken) => {
-                console.log("jjjjjjjjjjjjjj")
+            var options = {
+                method: 'post',
+                url: "https://api.symbl.ai/oauth2/token:generate",
+                body: {
+                    type: "application",
+                    appId: process.env.APP_ID,
+                    appSecret: process.env.APP_SECRET
+                },
+                json: true
+            }
+            TeacherService.generateAuthToken(options).then((authToken) => {
+                console.log("jjjjjjjjjjjjjj", authToken)
 
 
                 startAnalysis(authToken.accessToken, path, req.body.meetingName, async (err, data) => {
@@ -187,75 +194,42 @@ export const sendVideoData = async (req, res) => {
                     }
                     else {
                         try {
-                            var filter = {
-                                slotName: req.body.slot,
-                                teachersAlloted: req.userId
+                            const messageData = data.messages.messages
+                            let i;
+                            for (i = 0; i < messageData.length; i++) {
+                                let tempEmotion = data.extraAnalysis.emotion[i].emotion
+                                let tempIntent = data.extraAnalysis.intent[i].intent
+                                let tempProfane = data.extraAnalysis.profaneWord[i]
+                                let tempSarcasm = data.extraAnalysis.sarcasm[i]
+                                messageData[i].emotion = Object.keys(tempEmotion).reduce((a, b) => tempEmotion[a] > tempEmotion[b] ? a : b)
+                                messageData[i].intent = Object.keys(tempIntent).reduce((a, b) => tempIntent[a] > tempIntent[b] ? a : b)
+                                messageData[i].profane = Object.keys(tempProfane).reduce((a, b) => tempProfane[a] > tempProfane[b] ? a : b)
+                                messageData[i].sarcasm = Object.keys(tempSarcasm).reduce((a, b) => tempSarcasm[a] > tempSarcasm[b] ? a : b)
                             }
-                            const existingUser = await TeacherService.find(filter)
-                            if (!existingUser) {
-                                try {
-                                    const messageData = data.messages.messages
-                                    let i;
-                                    for (i = 0; i < messageData.length; i++) {
-                                        let tempEmotion = data.extraAnalysis.emotion[i].emotion
-                                        let tempIntent = data.extraAnalysis.intent[i].intent
-                                        let tempProfane = data.extraAnalysis.profaneWord[i]
-                                        let tempSarcasm = data.extraAnalysis.sarcasm[i]
-                                        messageData[i].emotion = Object.keys(tempEmotion).reduce((a, b) => tempEmotion[a] > tempEmotion[b] ? a : b)
-                                        messageData[i].intent = Object.keys(tempIntent).reduce((a, b) => tempIntent[a] > tempIntent[b] ? a : b)
-                                        messageData[i].profane = Object.keys(tempProfane).reduce((a, b) => tempProfane[a] > tempProfane[b] ? a : b)
-                                        messageData[i].sarcasm = Object.keys(tempSarcasm).reduce((a, b) => tempSarcasm[a] > tempSarcasm[b] ? a : b)
-                                    }
-                                    //Creating the Final data
-                                    await TeacherService.insert({ teacherId: req.userId, conversationIdData: { conversationId: data.messages.messages[0].conversationId, createdAt: Date.now(), slotName: req.body.slotName, meetingName: req.body.meetingName, analysisData: data, url: url } });
+                            //Creating the Final data
+                            console.log(data, "**********************")
+                            await TeacherService.update({ teacherId: req.userId }, { $push: { conversationIdData: { conversationId: data.messages.messages[0].conversationId, createdAt: Date.now(), slotName: req.body.slotName, meetingName: req.body.meetingName, analysisData: data, url: url } } })
+                                .then(() => {
                                     res.status(200).json(data)
-                                }
-                                catch (error) {
-                                    console.log(error.message)
-                                    res.status(500).json({ message: error })
-                                }
-                            }
-                            else {
-                                try {
-                                    const messageData = data.messages.messages
-                                    let i;
-                                    for (i = 0; i < messageData.length; i++) {
-                                        let tempEmotion = data.extraAnalysis.emotion[i].emotion
-                                        let tempIntent = data.extraAnalysis.intent[i].intent
-                                        let tempProfane = data.extraAnalysis.profaneWord[i]
-                                        let tempSarcasm = data.extraAnalysis.sarcasm[i]
-                                        messageData[i].emotion = Object.keys(tempEmotion).reduce((a, b) => tempEmotion[a] > tempEmotion[b] ? a : b)
-                                        messageData[i].intent = Object.keys(tempIntent).reduce((a, b) => tempIntent[a] > tempIntent[b] ? a : b)
-                                        messageData[i].profane = Object.keys(tempProfane).reduce((a, b) => tempProfane[a] > tempProfane[b] ? a : b)
-                                        messageData[i].sarcasm = Object.keys(tempSarcasm).reduce((a, b) => tempSarcasm[a] > tempSarcasm[b] ? a : b)
-                                    }
-                                    AnalysisData.updateOne({ _id: existingUser._id }, { $push: { conversationIdData: { conversationId: data.messages.messages[0].conversationId, createdAt: Date.now(), slotName: req.body.slotName, meetingName: req.body.meetingName, analysisData: data, url: url } } }).exec(function (err, response) {
-                                        if (err) {
-                                            console.log(err)
-                                        }
-                                        else {
-                                            // mongoose.connection.close()
-                                            console.log("done............................................................", data)
-                                            res.status(200).json(data)
-                                        }
-                                    })
-                                } catch (error) {
-                                    console.log(error)
-                                    res.status(500).json({ message: error })
-                                }
-
-                            }
+                                })
+                                .catch((err) => {
+                                    console.log(err)
+                                    return res.status(500).json({ message: "Something went wrong!" })
+                                })
                         }
                         catch (error) {
                             console.log(error.message)
                             res.status(500).json({ message: error })
-
                         }
 
                     }
                 })
 
             })
+                .catch((err) => {
+                    console.log(err)
+                    return res.status(500).json({ message: "Something went wrong!" })
+                })
 
         })
 
@@ -264,6 +238,104 @@ export const sendVideoData = async (req, res) => {
     }
 }
 
-export const updateProfile = (req, res) => {
+export const pendingStudentList = (req, res) => {
+    var filter = {
+        teacherId: req.userId
+    }
+    TeacherService.find(filter).then(async (teacherData) => {
+        filter = {
+            subject: teacherData.subject
+        }
+        await StudentService.find(filter).then((pendingStudentList) => {
+            res.status(200).json(pendingStudentList)
+        })
+            .catch((err) => {
+                console.log(err)
+                return res.status(500).json({ message: "Something went wrong!" })
+            })
+    })
+        .catch((err) => {
+            console.log(err)
+            return res.status(500).json({ message: "Something went wrong!" })
+        })
 
+}
+
+export const getRegisteredStudentList = async (req, res) => {
+    var filter = {
+        teacherId: req.userId,
+    }
+    TeacherService.find(filter).then(async (response) => {
+        if (response == null) {
+            res.status(204).json({ message: "No student found!" })
+        }
+        else {
+            console.log(response)
+            res.status(200).json(response)
+        }
+    })
+        .catch((err) => {
+            console.log(err)
+            return res.status(500).json({ message: "Something went wrong!" })
+        })
+}
+
+
+export const addStudent = async (req, res) => {
+
+    TeacherService.update({ teacherId: req.userId }, { $push: { slot: { [req.body.preferredSlot]: { $each: req.body.studentList } } } }).then(async () => {
+        console.log("Succefully added Students!")
+        StudentService.update({ studentId: { $in: req.body.studentList } }, { $push: { teachersAlloted: req.userId } })
+        res.status(200).json({ message: "Succefully added Students!" })
+    })
+        .catch((err) => {
+            console.log(err)
+            return res.status(500).json({ message: "Something went wrong!" })
+        })
+}
+
+
+export const createClass = async (req, res) => {
+    var filter = { teacherId: req.userId }
+    TeacherService.find(filter).then((teacher) => {
+        if (teacher.length > 0) {
+            console.log(teacher, "muskurane")
+            TeacherService.update({ teacherId: req.userId }, { $push: { className: { [req.body.slotName]: req.body.className }, subject: req.body.subject, slot: { [req.body.slotName]: { $each: [] } } } }).then(async () => {
+                console.log("Succefully updated Class!")
+                res.status(200).json({ message: "Succefully updated Class!" })
+            })
+                .catch((err) => {
+                    console.log(err)
+                    return res.status(500).json({ message: "Something went wrong!" })
+                })
+        }
+        else {
+            TeacherService.insert({ teacherId: req.userId, className: { [req.body.slotName]: req.body.className }, subject: req.body.subject, slot: { [req.body.slotName]: [] } }).then(async () => {
+                console.log("Succefully created Class!")
+                res.status(200).json({ message: "Succefully created Class!" })
+            })
+                .catch((err) => {
+                    console.log(err)
+                    return res.status(500).json({ message: "Something went wrong!" })
+                })
+        }
+    })
+        .catch((err) => {
+            console.log(err)
+            return res.status(500).json({ message: "Something went wrong!" })
+        })
+}
+
+export const viewClasses = async (req, res) => {
+    var filter = { teacherId: req.userId }
+
+    TeacherService.find(filter).then(async (classes) => {
+
+        console.log("Succefully added Students!")
+        res.status(200).json(classes)
+    })
+        .catch((err) => {
+            console.log(err)
+            return res.status(500).json({ message: "Something went wrong!" })
+        })
 }

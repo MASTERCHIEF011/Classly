@@ -25,7 +25,7 @@ export const createClass = (formData) => {
 // export const stopAnalysis = (connectionId) => API.get(`/analysis/stopInterviewAnalysis/${connectionId}`)
 
 // //---------------Video Analysis axios APIs------------//
-export const sendVideoData = (formData) => API.post('/analysis/videoAnalysis/sendVideoData', formData, {
+export const sendVideoData = (formData) => API.post('/teacher/analysis', formData, {
     headers: {
         "Content-Type": "multipart/form-data"
     }

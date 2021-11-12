@@ -10,9 +10,34 @@ const teacherSchema = new mongoose.Schema({
         type: String,
         default: null
     },
-    slotName: [String],
-    slotTiming: [Date],
-    slotStudents: [[mongoose.Schema.Types.ObjectId]],
+    className: {
+        morning: {
+            type: String,
+            default: ''
+        },
+        afternoon: {
+            type: String,
+            default: ''
+        },
+        evening: {
+            type: String,
+            default: ''
+        }
+    },
+    slot: {
+        morning: [{
+            type: mongoose.Schema.Types.ObjectId,
+            default: null
+        }],
+        afternoon: [{
+            type: mongoose.Schema.Types.ObjectId,
+            default: null
+        }],
+        evening: [{
+            type: mongoose.Schema.Types.ObjectId,
+            default: null
+        }]
+    },
     meetingName: [String],
     conversationIdData: [{
         slotName: {

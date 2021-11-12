@@ -2,8 +2,11 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+
 
 import authRoutes from './src/auth/authRoutes.js';
+import teacherRoutes from './src/api/teacher/teacherRoutes.js'
 
 dotenv.config();
 const app = express();
@@ -11,6 +14,7 @@ const app = express();
 
 app.use(express.urlencoded({ limit: "30mb", extended: "true" }));
 app.use(express.json({ limit: "30mb", extended: "true" }));
+// app.use(express.static(path.join(__dirname + "/public")));
 app.use(cors());
 
 const PORT = process.env.PORT || 5000
@@ -25,4 +29,6 @@ app.use(function (req, res, next) {
 });
 
 app.use("/user", authRoutes);
+app.use("/teacher", teacherRoutes);
+
 

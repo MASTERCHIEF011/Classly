@@ -1,4 +1,4 @@
-import AnalysisData from '../models/analysisDataModel.js';
+import * as StudentService from "./studentService.js"
 
 
 export const getDataToCompare = async (req, res) => {
@@ -55,4 +55,25 @@ export const fetchAnanlysisData = async (req, res) => {
             res.status(200).json({ analysisData: response.conversationIdData[0].analysisData })
         }
     })
+}
+
+
+export const getTeacherList = async (req, res) => {
+    var filter = {
+        studentId: req.userId
+    }
+    StudentService.find(filter).then(async (response) => {
+        if (response == null) {
+            res.status(204).json({ message: "No Teacher found!" })
+        }
+        else {
+            console.log(response)
+            res.status(200).json(response)
+
+        }
+    })
+        .catch((err) => {
+            console.log(err)
+            return res.status(500).json({ message: "Something went wrong!" })
+        })
 }

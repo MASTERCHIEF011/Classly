@@ -14,11 +14,24 @@ export const find = (filter) => {
     });
 };
 
+
+
+export const update = (filter, data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const response = await Teacher.updateOne(filter, data)
+            resolve(response);
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
 export const insert = (filter) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const data = await Teacher.insert(filter)
-            resolve(data);
+            const response = await Teacher.insertMany(filter)
+            resolve(response);
         } catch (error) {
             reject(error);
         }
@@ -27,17 +40,30 @@ export const insert = (filter) => {
 
 
 
+export const generateAuthToken = (options) => {
+    return new Promise(async (resolve, reject) => {
+        request(options, (error, response, body) => {
+            if (error) throw new Error(error);
+            console.log(body);
+            try {
+                resolve(body);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    });
+};
 export const getJobStatus = (options) => {
     return new Promise(async (resolve, reject) => {
-        try {
-            request(options, (error, response) => {
-                if (error) throw new Error(error);
-                console.log(response.body);
-            });;
-            resolve(response.body);
-        } catch (error) {
-            reject(error);
-        }
+        request(options, (error, response, body) => {
+            if (error) throw new Error(error);
+            console.log(body);
+            try {
+                resolve(body);
+            } catch (error) {
+                reject(error);
+            }
+        });
     });
 };
 
@@ -55,7 +81,7 @@ export const getEmotionAnalysis = (text) => {
         request.post({
             url: `https://apis.paralleldots.com/v5/emotion`,
             form: {
-                api_key: process.env.API_KEY,
+                api_key: process.env.API_KEY1,
                 text: text
             },
             json: true
@@ -83,7 +109,7 @@ export const getSarcasmAnalysis = (text) => {
         request.post({
             url: `https://apis.paralleldots.com/v4/sarcasm`,
             form: {
-                api_key: process.env.API_KEY,
+                api_key: process.env.API_KEY2,
                 text: text
             },
             json: true
@@ -107,7 +133,7 @@ export const getIntentAnalysis = (text) => {
         request.post({
             url: `https://apis.paralleldots.com/v4/new/intent`,
             form: {
-                api_key: process.env.API_KEY,
+                api_key: process.env.API_KEY1,
                 text: text
             },
             json: true
@@ -132,7 +158,7 @@ export const getAbuseAnalysis = (text) => {
         request.post({
             url: `https://apis.paralleldots.com/v4/abuse`,
             form: {
-                api_key: process.env.API_KEY,
+                api_key: process.env.API_KEY4,
                 text: text
             },
             json: true
@@ -152,28 +178,6 @@ export const getAbuseAnalysis = (text) => {
 
 
 // ***********Symbl API***********
-
-export const generateAuthToken = (callback) => {
-    console.log("authtoken")
-    const authOptions = {
-        method: 'post',
-        url: "https://api.symbl.ai/oauth2/token:generate",
-        body: {
-            type: "application",
-            appId: process.env.APP_ID,
-            appSecret: process.env.APP_SECRET
-        },
-        json: true
-    };
-
-    request(authOptions, (err, body) => {
-        if (err) {
-            console.error('error posting json: ', err);
-            throw err
-        }
-        callback(body.body)
-    })
-};
 
 // *****************Conversation API requests*******************
 

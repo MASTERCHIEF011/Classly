@@ -6,6 +6,12 @@ const studentSchema = new mongoose.Schema({
         ref: "User",
         default: null
     },
+
+    subject: [String],
+    preferredSlot: {
+        type: String,
+        default: ""
+    },
     teachersAlloted: [{
         teacher: {
             type: mongoose.Schema.Types.ObjectId,
