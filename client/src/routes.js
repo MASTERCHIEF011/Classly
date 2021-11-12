@@ -28,7 +28,7 @@ const Router = () => {
         { element: <Navigate to="/dashboard/app" replace /> },
         { path: 'app', element: <DashboardApp /> },
         { path: 'profile', element: <User /> },
-        { path: 'products', element: <Products /> },
+        { path: 'classes', element: <Products /> },
         { path: 'blog', element: <Blog /> },
       ]
     },
